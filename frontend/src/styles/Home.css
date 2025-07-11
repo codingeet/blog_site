@@ -1,0 +1,106 @@
+/* General Layout */
+.home {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding: var(--spacing-xl);
+  line-height: 1.6;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: var(--spacing-xl);
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-md);
+  font-weight: var(--heading-font-weight);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Features Section */
+.features {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  margin: var(--spacing-xl) 0;
+}
+
+.feature-card {
+  background-color: var(--white);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  width: 280px;
+  transition: transform 0.2s ease;
+  text-align: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card h2 {
+  font-size: 1.4rem;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+  font-weight: var(--heading-font-weight);
+}
+
+.feature-card p {
+  color: var(--light-text-color);
+  font-size: 0.95rem;
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  background-color: var(--accent-color);
+  color: var(--white);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-top: var(--spacing-xl);
+}
+
+.cta-section h2 {
+  font-size: 1.8rem;
+  font-weight: var(--heading-font-weight);
+  margin-bottom: var(--spacing-sm);
+}
+
+.cta-section p {
+  font-size: 1rem;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Button Styling (uses theme variables) */
+.btn {
+  padding: 10px 24px;
+  border-radius: var(--border-radius);
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+}

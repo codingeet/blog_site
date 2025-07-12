@@ -1,6 +1,7 @@
 * body{
   margin: 0px;
   padding: 0px;
+    font-family: var(--font-family);
 }
 :root {
   /* 🎨 Color Palette */

@@ -1,8 +1,10 @@
 .site-footer {
   background-color: var(--secondary-color);
   color: var(--white);
-  padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md);
   font-family: var(--font-family);
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
 }
 
 .footer-container {

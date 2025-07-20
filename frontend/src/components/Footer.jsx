@@ -1,9 +1,14 @@
- import React from "react";
+ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Footer.css";
 
 
 const Footer = () => {
+//   useEffect(() => {
+//   document.body.style.display = "flex";
+//   document.body.style.flexDirection = "column";
+//   document.body.style.minHeight = "100vh";
+// }, []);
   return (
     <footer className="site-footer">
       <div className="footer-container">

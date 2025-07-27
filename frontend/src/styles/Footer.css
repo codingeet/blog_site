@@ -2,9 +2,9 @@
   background-color: var(--secondary-color);
   color: var(--white);
   font-family: var(--font-family);
-  position: absolute;
+  position: sticky;
   bottom: 0;
-  width: 100vw;
+  width: 100%;
 }
 
 .footer-container {
@@ -17,6 +17,7 @@
 
 .footer-brand {
   flex: 1 1 250px;
+  padding-left:10px;
 }
 
 .footer-brand h2 {

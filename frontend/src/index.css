@@ -3,12 +3,15 @@
   padding: 0px;
     font-family: var(--font-family);
 } */
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
-   font-family: var(--font-family);
+  font-family: var(--font-family);
 }
+
 :root {
   /* 🎨 Color Palette */
   --primary-color: #4b6cb7;
@@ -37,4 +40,12 @@ html, body, #root {
   /* 🖼️ Borders and Radius */
   --border-radius: 6px;
   --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.right {
+  float: right;
 }

@@ -80,12 +80,21 @@ export default function WriteBlog() {
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content: '<p>Start writing your blog...</p>',
-  })
+  });
+
+  const handleSubmit = () => {
+    let data = editor.getHTML();
+    console.log(data)
+  }
 
   return (
-   <div className="editor-container">
-      <MenuBar editor={editor} />
-      <EditorContent editor={editor} className="editor-content" />
+    <div className='writeblog-wrapper'>
+      <h3 className='text-center'>Create a New Blog Post</h3>
+      <div className="editor-container">
+        <MenuBar editor={editor} />
+        <EditorContent editor={editor} className="editor-content" />
+        <button className="btn btn-primary right submit" type='button' onClick={handleSubmit}>Submit</button>
+      </div>
     </div>
   )
 }

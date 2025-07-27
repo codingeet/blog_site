@@ -40,5 +40,11 @@
 
 .ProseMirror {
     min-height: 300px !important;
-    padding: 1em !important;
+    padding: 0.5rem !important;
+}
+.submit{
+  margin: 1rem;
+}
+.writeblog-wrapper{
+  margin-bottom: 6rem;
 }

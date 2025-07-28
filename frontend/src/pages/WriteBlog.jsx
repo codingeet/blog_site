@@ -92,23 +92,14 @@ export default function WriteBlog() {
       content: content,
       author: "Mukesh Maurya"
     };
-    console.log(blogData)
+    fetch("http://localhost:5000/api/blogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(blogData),
+    }).then(res => res.json()).then(data => console.log("Blog created:", data))
+      .catch(err => console.error("Error:", err));
   };
 
-  //   useEffect(()=> {
-  // fetch("http://localhost:5000/api/blogs", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify({
-  //     title: "My new blog",
-  //     content: "Here’s what I learned...",
-  //     author: "Mukesh Maurya"
-  //   }),
-  // })
-  //   .then(res => res.json())
-  //   .then(data => console.log("Blog created:", data))
-  //   .catch(err => console.error("Error:", err));
-  //   }, []);
 
   return (
     <div className='writeblog-wrapper'>

@@ -9,7 +9,11 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+// Allow requests from frontend
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true, // if using cookies or authentication
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {

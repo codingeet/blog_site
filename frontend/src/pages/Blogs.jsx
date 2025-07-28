@@ -51,7 +51,6 @@ const Blogs = () => {
         {blogPosts.map((post) => (
           <div className="blog-card" key={post.id}>
             <h2 className="blog-title">{post.title}</h2>
-            <p className="blog-excerpt">{post.excerpt}</p>
             <div className="blog-meta">
               <span className="blog-author">By {post.author}</span>
               <span className="blog-date">{post.date}</span>

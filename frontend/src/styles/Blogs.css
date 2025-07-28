@@ -36,11 +36,6 @@
   font-weight: var(--heading-font-weight);
 }
 
-.blog-excerpt {
-  font-size: 1rem;
-  color: var(--light-text-color);
-  margin-bottom: var(--spacing-md);
-}
 
 .blog-meta {
   display: flex;

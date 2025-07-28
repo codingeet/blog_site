@@ -1,5 +1,5 @@
 // BlogEditor.jsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -85,7 +85,22 @@ export default function WriteBlog() {
   const handleSubmit = () => {
     let data = editor.getHTML();
     console.log(data)
-  }
+  };
+
+//   useEffect(()=> {
+// fetch("http://localhost:5000/api/blogs", {
+//   method: "POST",
+//   headers: { "Content-Type": "application/json" },
+//   body: JSON.stringify({
+//     title: "My new blog",
+//     content: "Here’s what I learned...",
+//     author: "Mukesh Maurya"
+//   }),
+// })
+//   .then(res => res.json())
+//   .then(data => console.log("Blog created:", data))
+//   .catch(err => console.error("Error:", err));
+//   }, []);
 
   return (
     <div className='writeblog-wrapper'>

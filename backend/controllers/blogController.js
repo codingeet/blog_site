@@ -8,8 +8,8 @@ exports.getBlogs = async (req, res) => {
 
 // @desc    Create a blog
 exports.createBlog = async (req, res) => {
-  const { title, excerpt, content, author } = req.body;
-  const blog = new Blog({ title, excerpt, content, author });
+  const { title, content, author } = req.body;
+  const blog = new Blog({ title, content, author });
   const createdBlog = await blog.save();
   res.status(201).json(createdBlog);
 };

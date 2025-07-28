@@ -7,7 +7,8 @@
 # Ignore build output (React or others)
 frontend/build/
 frontend/dist/
-
+backend/package-lock.json
+frontend/package-lock.json
 # Logs
 **/npm-debug.log
 **/yarn-debug.log

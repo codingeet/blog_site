@@ -1,50 +1,74 @@
  .editor-container {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: white;
-  max-width: 800px;
-  margin: 20px auto;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   background: white;
+   max-width: 800px;
+   margin: 20px auto;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ }
 
-.menu-bar {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  background: #f9f9f9;
-}
+ .menu-bar {
+   padding: 10px;
+   border-bottom: 1px solid #ccc;
+   background: #f9f9f9;
+ }
 
-.menu-bar button {
-  margin-right: 8px;
-  padding: 6px 10px;
-  border: none;
-  background: #eee;
-  border-radius: 4px;
-  cursor: pointer;
-}
+ .menu-bar button {
+   margin-right: 8px;
+   padding: 6px 10px;
+   border: none;
+   background: #eee;
+   border-radius: 4px;
+   cursor: pointer;
+ }
 
-.menu-bar button:hover {
-  background: #ddd;
-}
+ .menu-bar button:hover {
+   background: #ddd;
+ }
 
-.editor-content {
-  min-height: 300px;
-  padding: 16px;
-  font-size: 16px;
-  line-height: 1.5;
-  outline: none;
-}
+ .editor-content {
+   min-height: 300px;
+   padding: 16px;
+   font-size: 16px;
+   line-height: 1.5;
+   outline: none;
+ }
 
-.editor-content:focus {
-  box-shadow: inset 0 0 0 2px #4f46e5; /* Blue focus ring */
-}
+ .editor-content:focus {
+   box-shadow: inset 0 0 0 2px #4f46e5;
+   /* Blue focus ring */
+ }
 
-.ProseMirror {
-    min-height: 300px !important;
-    padding: 0.5rem !important;
-}
-.submit{
-  margin: 1rem;
-}
-.writeblog-wrapper{
-  margin-bottom: 6rem;
-}
+ .ProseMirror {
+   min-height: 300px !important;
+   padding: 0.5rem !important;
+ }
+
+ .submit {
+   margin: 1rem;
+ }
+
+ .writeblog-wrapper {
+   margin-bottom: 6rem;
+ }
+
+ .title-wrap {
+   padding: 8px;
+   width: 100%;
+
+   input {
+     width: 92%;
+     height: 30px;
+   }
+ }
+ .menu-wrap{
+  
+  display: flex;              /* flex */
+  gap: 0.5rem;                /* gap-2 (2 * 0.125rem = 0.5rem) */
+  flex-wrap: wrap;            /* flex-wrap */
+  border-bottom: 1px solid #e5e7eb; /* border-b (default gray-200 in Tailwind, we can use #e5e7eb) */
+  padding: 0.5rem;            /* p-2 (2 * 0.125rem = 0.5rem) */
+  background-color: #f3f4f6;  /* bg-gray-100 */
+
+
+ }

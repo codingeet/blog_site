@@ -1,5 +1,5 @@
 // BlogEditor.jsx
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -20,7 +20,7 @@ const MenuBar = ({ editor }) => {
   }
 
   return (
-    <div className="flex gap-2 flex-wrap border-b p-2 bg-gray-100">
+    <div className="menu-wrap">
       <button onClick={() => editor.chain().focus().toggleBold().run()}
         className={editor.isActive('bold') ? 'bg-gray-300 p-1 rounded' : 'p-1'}>
         Bold
@@ -68,6 +68,7 @@ const MenuBar = ({ editor }) => {
 }
 
 export default function WriteBlog() {
+  const [title, setTitle] = useState('');
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -81,31 +82,44 @@ export default function WriteBlog() {
     ],
     content: '<p>Start writing your blog...</p>',
   });
-
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
+  }
   const handleSubmit = () => {
-    let data = editor.getHTML();
-    console.log(data)
+    let content = editor.getHTML();
+    let blogData = {
+      title: title,
+      content: content,
+      author: "Mukesh Maurya"
+    };
+    console.log(blogData)
   };
 
-//   useEffect(()=> {
-// fetch("http://localhost:5000/api/blogs", {
-//   method: "POST",
-//   headers: { "Content-Type": "application/json" },
-//   body: JSON.stringify({
-//     title: "My new blog",
-//     content: "Here’s what I learned...",
-//     author: "Mukesh Maurya"
-//   }),
-// })
-//   .then(res => res.json())
-//   .then(data => console.log("Blog created:", data))
-//   .catch(err => console.error("Error:", err));
-//   }, []);
+  //   useEffect(()=> {
+  // fetch("http://localhost:5000/api/blogs", {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify({
+  //     title: "My new blog",
+  //     content: "Here’s what I learned...",
+  //     author: "Mukesh Maurya"
+  //   }),
+  // })
+  //   .then(res => res.json())
+  //   .then(data => console.log("Blog created:", data))
+  //   .catch(err => console.error("Error:", err));
+  //   }, []);
 
   return (
     <div className='writeblog-wrapper'>
       <h3 className='text-center'>Create a New Blog Post</h3>
+
       <div className="editor-container">
+        <div className='title-wrap'>
+          <label for="title">Title:</label>
+          <input onChange={handleTitle}
+            type="text" id="title" name="title" placeholder="Enter your Blog Title" />
+        </div>
         <MenuBar editor={editor} />
         <EditorContent editor={editor} className="editor-content" />
         <button className="btn btn-primary right submit" type='button' onClick={handleSubmit}>Submit</button>

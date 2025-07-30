@@ -1,7 +1,7 @@
  import React from 'react';
-import './Alert.css'; // import CSS
+import '../styles/Alert.css';
 
-const Alert = ({ type = 'info', message, onClose }) => {
+const Alert = ({ type ='info', message, onClose }) => {
   return (
     <div className={`alert ${type}`}>
       <span>{message}</span>

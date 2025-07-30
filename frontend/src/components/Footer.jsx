@@ -13,7 +13,7 @@ const Footer = () => {
     <footer className="site-footer">
       <div className="footer-container">
         <div className="footer-brand">
-          <h2>SmartBlog</h2>
+          <h2>CodeChronicles</h2>
           <p>Your daily dose of insights, stories, and updates from around the world.</p>
         </div>
 
@@ -39,7 +39,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} SmartBlog. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} CodeChronicles. All rights reserved.</p>
       </div>
     </footer>
   );

@@ -5,7 +5,7 @@
   return (
     <div className="home">
       <header className="hero">
-        <h1>Welcome to SmartBlog</h1>
+        <h1>Welcome to CodeChronicles</h1>
         <p>Your personal space to write, read, and explore ideas.</p>
         <button className="btn btn-primary">Get Started</button>
       </header>
@@ -26,8 +26,8 @@
       </section>
 
       <section className="cta-section">
-        <h2>Join SmartBlog Today</h2>
-        <p>Whether you're a reader or a writer, SmartBlog welcomes you.</p>
+        <h2>Join CodeChronicles Today</h2>
+        <p>Whether you're a reader or a writer, CodeChronicles welcomes you.</p>
         <button className="btn btn-primary">Create Your First Blog</button>
       </section>
     </div>

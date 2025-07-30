@@ -11,6 +11,7 @@ import TextAlign from '@tiptap/extension-text-align'
 import Color from '@tiptap/extension-color'
 import "../styles/WriteBlog.css";
 
+
 const MenuBar = ({ editor }) => {
   if (!editor) return null
 
@@ -82,39 +83,45 @@ export default function WriteBlog() {
     ],
     content: '<p>Start writing your blog...</p>',
   });
+
   const handleTitle = (e) => {
     setTitle(e.target.value);
   }
-  const handleSubmit = () => {
-    let content = editor.getHTML();
-    let blogData = {
-      title: title,
-      content: content,
-      author: "Mukesh Maurya"
-    };
-    fetch("http://localhost:5000/api/blogs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(blogData),
-    }).then(res => res.json()).then(data => console.log("Blog created:", data))
-      .catch(err => console.error("Error:", err));
+  
+
+const handleSubmit = () => {
+  let content = editor.getHTML();
+  let blogData = {
+    title: title,
+    content: content,
+    author: "Mukesh Maurya"
   };
+  fetch("http://localhost:5000/api/blogs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(blogData),
+  }).then(res => res.json()).then(data => console.log("Blog created:", data))
+    .catch(err => console.error("Error:", err));
+  
 
+ 
 
-  return (
-    <div className='writeblog-wrapper'>
-      <h3 className='text-center'>Create a New Blog Post</h3>
+};
+return (
+  <div className='writeblog-wrapper'>
+    <h3 className='text-center'>Create a New Blog Post</h3>
 
-      <div className="editor-container">
-        <div className='title-wrap'>
-          <label for="title">Title:</label>
-          <input onChange={handleTitle}
-            type="text" id="title" name="title" placeholder="Enter your Blog Title" />
-        </div>
-        <MenuBar editor={editor} />
-        <EditorContent editor={editor} className="editor-content" />
-        <button className="btn btn-primary right submit" type='button' onClick={handleSubmit}>Submit</button>
+    <div className="editor-container">
+      <div className='title-wrap'>
+        <label for="title">Title:</label>
+        <input onChange={handleTitle}
+          type="text" id="title" name="title" placeholder="Enter your Blog Title" />
       </div>
+      <MenuBar editor={editor} />
+      <EditorContent editor={editor} className="editor-content" />
+      <button className="btn btn-primary right submit" type='button' onClick={handleSubmit}>Submit</button>
+    
     </div>
-  )
-}
+  </div>
+);
+};

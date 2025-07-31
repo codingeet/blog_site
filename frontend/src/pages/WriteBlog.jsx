@@ -1,5 +1,5 @@
 // BlogEditor.jsx
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -11,6 +11,10 @@ import TextAlign from '@tiptap/extension-text-align'
 import Color from '@tiptap/extension-color'
 import "../styles/WriteBlog.css";
 import Alert from '../components/Alert'
+const alertConfig = {
+  type: 'error',
+  msg: ''
+};
 
 
 const MenuBar = ({ editor }) => {
@@ -90,8 +94,6 @@ export default function WriteBlog() {
   const handleTitle = (e) => {
     setTitle(e.target.value);
   }
-
-
   const handleSubmit = () => {
     let content = editor.getHTML();
     let blogData = {
@@ -99,10 +101,10 @@ export default function WriteBlog() {
       content: content,
       author: "Mukesh Maurya"
     };
-    console.log('blogdata', blogData);
-    
-//// validation block///
-    if (title == "" || blogData.content == "<p></p>" || blogData.content ==`<p>Start writing your blog...</p>` ) {
+    //// validation block///
+    if (title === "" || blogData.content === "<p></p>" || blogData.content === `<p>Start writing your blog...</p>`) {
+      alertConfig.msg = "Title or content empty !";
+      alertConfig.type = 'error';
       toggleAlert();
       return;
     }
@@ -112,8 +114,19 @@ export default function WriteBlog() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blogData),
-    }).then(res => res.json()).then(data => console.log("Blog created:", data))
-      .catch(err => console.error("Error:", err));
+    }).then(res => {
+      if(res.ok) {
+        alertConfig.type = 'success';
+        alertConfig.msg = 'Blog submited successfully.';
+        toggleAlert();
+      }
+      return res.json();  
+    }).then(data => console.log("Blog created:", data))
+      .catch(err => {
+        alertConfig.type = 'error';
+        alertConfig.msg = 'Ohh!!! Server error, not able to submit blog.';
+        toggleAlert();
+      });
   };
 
   const toggleAlert = () => {
@@ -122,8 +135,8 @@ export default function WriteBlog() {
   return (
     <div className='writeblog-wrapper'>
       {showAlert && <Alert
-        type='error'
-        message="Title or content empty !!!"
+        type={alertConfig.type}
+        message={alertConfig.msg}
         onClose={toggleAlert}
       />}
       <h3 className='text-center'>Create a New Blog Post</h3>

@@ -1,12 +1,12 @@
 
 .alert {
   position: fixed;
-  top: 30%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 300px;
+  min-width: 250px;
   max-width: 400px;
-  padding: 16px 20px;
+  padding: 16px ;
   border-radius: 8px;
   color: white;
   display: flex;
@@ -40,4 +40,9 @@
   font-size: 32px;
   cursor: pointer;
 }
+
+
+
+
+
 

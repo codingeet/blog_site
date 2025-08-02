@@ -72,3 +72,34 @@
 
 
  }
+ .imageUploader {
+  margin: 20px 0;
+  font-family: sans-serif;
+}
+
+.fileLabel {
+  display: block;
+  font-weight: 400;
+  margin-bottom: 8px;
+
+}
+
+.fileInput {
+  display: none;
+}
+
+.fileLabel::after {
+  content: ' Choose File';
+  display: inline-block;
+  background-color:  var(--primary-color);
+  color: white;
+  padding: 8px 14px;
+  margin-left: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.fileLabel:hover::after {
+  background-color: var(--primary-color);
+}

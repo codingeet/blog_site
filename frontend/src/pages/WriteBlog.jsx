@@ -12,6 +12,7 @@ import Color from '@tiptap/extension-color'
 import "../styles/WriteBlog.css";
 import Alert from '../components/Alert'
 
+
 const alertConfig = {
   type: 'error',
   msg: ''
@@ -107,19 +108,19 @@ export default function WriteBlog() {
       toggleAlert();
       return;
     }
-    
+
     ////
     fetch("http://localhost:5000/api/blogs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blogData),
     }).then(res => {
-      if(res.ok) {
+      if (res.ok) {
         alertConfig.type = 'success';
         alertConfig.msg = 'Blog submitted successfully.';
         toggleAlert();
       }
-      return res.json();  
+      return res.json();
     }).then(data => console.log("Blog created:", data))
       .catch(err => {
         alertConfig.type = 'error';
@@ -139,11 +140,23 @@ export default function WriteBlog() {
         onClose={toggleAlert}
       />}
       <h3 className='text-center'>Create a New Blog Post</h3>
+
       <div className="editor-container">
         <div className='title-wrap'>
           <label for="title">Title:</label>
+
           <input onChange={handleTitle}
             type="text" id="title" name="title" placeholder="Enter your Blog Title" />
+        </div>
+        <div className="imageUploader">
+          <label htmlFor="thumbnail" className="fileLabel">Blog thumbnail:</label>
+
+          <input
+            type="file"
+            id="thumbnail"
+            accept="image/*"
+            className="fileInput"
+          />
         </div>
         <MenuBar editor={editor} />
         <EditorContent editor={editor} className="editor-content" />

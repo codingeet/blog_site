@@ -73,8 +73,10 @@
 
  }
  .imageUploader {
-  margin: 20px 0;
-  font-family: sans-serif;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .fileLabel {

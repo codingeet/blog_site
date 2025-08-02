@@ -95,21 +95,25 @@ export default function WriteBlog() {
     setTitle(e.target.value);
   }
   const handleSubmit = () => {
+const formData = new FormData();
+console.log("formData", formData);
+
+// formData.append("title", blogTitle);
+// formData.append("content", blogContent);
+// formData.append("author", "Mukesh");
+// formData.append("thumbnail", selectedFile);
     let content = editor.getHTML();
     let blogData = {
       title: title,
       content: content,
       author: "Mukesh Maurya"
     };
-    //// validation block///
     if (title === "" || blogData.content === "<p></p>" || blogData.content === `<p>Start writing your blog...</p>`) {
       alertConfig.msg = "Title or content empty !";
       alertConfig.type = 'error';
       toggleAlert();
       return;
     }
-
-    ////
     fetch("http://localhost:5000/api/blogs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -143,20 +147,20 @@ export default function WriteBlog() {
 
       <div className="editor-container">
         <div className='title-wrap'>
-          <label for="title">Title:</label>
+          <label htmlFor="title">Title:</label>
 
           <input onChange={handleTitle}
             type="text" id="title" name="title" placeholder="Enter your Blog Title" />
         </div>
         <div className="imageUploader">
           <label htmlFor="thumbnail" className="fileLabel">Blog thumbnail:</label>
-
           <input
             type="file"
             id="thumbnail"
             accept="image/*"
             className="fileInput"
           />
+          <span>myblogimg.jpg</span>
         </div>
         <MenuBar editor={editor} />
         <EditorContent editor={editor} className="editor-content" />

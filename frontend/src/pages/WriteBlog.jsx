@@ -76,6 +76,8 @@ const MenuBar = ({ editor }) => {
 export default function WriteBlog() {
   const [title, setTitle] = useState('');
   const [showAlert, setAlert] = useState(false);
+  const [imageFile, setImageFile] = useState(null);       // stores the file object
+  const [previewURL, setPreviewURL] = useState(null);
 
   const editor = useEditor({
     extensions: [
@@ -94,14 +96,26 @@ export default function WriteBlog() {
   const handleTitle = (e) => {
     setTitle(e.target.value);
   }
-  const handleSubmit = () => {
-const formData = new FormData();
-console.log("formData", formData);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      setImageFile(file);
+      setPreviewURL(URL.createObjectURL(file));
+      console.log(file);
+      console.log(URL.createObjectURL(file));
 
-// formData.append("title", blogTitle);
-// formData.append("content", blogContent);
-// formData.append("author", "Mukesh");
-// formData.append("thumbnail", selectedFile);
+    } else {
+      alert('Please select a valid image file.');
+    }
+  };
+  const handleSubmit = () => {
+    const formData = new FormData();
+    console.log("formData", formData);
+
+    // formData.append("title", blogTitle);
+    // formData.append("content", blogContent);
+    // formData.append("author", "Mukesh");
+    // formData.append("thumbnail", selectedFile);
     let content = editor.getHTML();
     let blogData = {
       title: title,
@@ -144,23 +158,22 @@ console.log("formData", formData);
         onClose={toggleAlert}
       />}
       <h3 className='text-center'>Create a New Blog Post</h3>
-
       <div className="editor-container">
         <div className='title-wrap'>
           <label htmlFor="title">Title:</label>
-
           <input onChange={handleTitle}
             type="text" id="title" name="title" placeholder="Enter your Blog Title" />
         </div>
         <div className="imageUploader">
           <label htmlFor="thumbnail" className="fileLabel">Blog thumbnail:</label>
-          <input
+          <input onChange={handleImageChange}
             type="file"
             id="thumbnail"
             accept="image/*"
             className="fileInput"
           />
-          <span>myblogimg.jpg</span>
+          {previewURL && <img src={previewURL} alt="preview"  height="50" width="50" style={{ borderRadius: '8px' }} />}
+          <span>{imageFile?.name}</span>
         </div>
         <MenuBar editor={editor} />
         <EditorContent editor={editor} className="editor-content" />

@@ -3,6 +3,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const blogRoutes = require("./routes/blogRoutes");
+const path = require("path");
+
+
 
 dotenv.config();
 connectDB();
@@ -14,6 +17,7 @@ app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true, // if using cookies or authentication
 }));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 
 app.get("/", (req, res) => {

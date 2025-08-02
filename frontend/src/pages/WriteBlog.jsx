@@ -11,12 +11,11 @@ import TextAlign from '@tiptap/extension-text-align'
 import Color from '@tiptap/extension-color'
 import "../styles/WriteBlog.css";
 import Alert from '../components/Alert'
+
 const alertConfig = {
   type: 'error',
   msg: ''
 };
-
-
 const MenuBar = ({ editor }) => {
   if (!editor) return null
 
@@ -108,7 +107,7 @@ export default function WriteBlog() {
       toggleAlert();
       return;
     }
-
+    
     ////
     fetch("http://localhost:5000/api/blogs", {
       method: "POST",
@@ -117,7 +116,7 @@ export default function WriteBlog() {
     }).then(res => {
       if(res.ok) {
         alertConfig.type = 'success';
-        alertConfig.msg = 'Blog submited successfully.';
+        alertConfig.msg = 'Blog submitted successfully.';
         toggleAlert();
       }
       return res.json();  

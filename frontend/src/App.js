@@ -5,24 +5,25 @@ import Footer from "./components/Footer";
 import Blogs from "./pages/Blogs";
 import About from "./pages/About";
 import WriteBlog from "./pages/WriteBlog";
+import DetailBlog from "./pages/DetailBlog";
 
 
 
 function App() {
   return (
-  <BrowserRouter>
-      <Header/>
-    <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/blogs" element={<Blogs />} />
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blogs" element={<Blogs />} />
         <Route path="/about" element={<About />} />
         <Route path="/write-blog" element={<WriteBlog />} />
-          {/* <Route path="/contact" element={<Contact />} /> */}
-          {/* Optional: Dynamic route */}
-          {/* <Route path="/blogs/:id" element={<BlogDetail />} /> */}
-        </Routes>
-      <Footer/>
-   </BrowserRouter>
+        {/* <Route path="/contact" element={<Contact />} /> */}
+        {/* Optional: Dynamic route */}
+        <Route path="/blogs/:id" element={<DetailBlog />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 

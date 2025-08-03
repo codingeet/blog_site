@@ -1,5 +1,6 @@
  import React, { useEffect, useState } from "react";
 import "../styles/Blogs.css";
+import { Link } from "react-router-dom";
 
 const Blogs = () => {
   const [blogPosts, setBlogPosts]= useState([]);
@@ -36,7 +37,7 @@ const Blogs = () => {
               <span className="blog-author">By {post.author}</span>
               <span className="blog-date">{readableTime}</span>
             </div>
-            <button className="btn btn-primary">Read More</button>
+            <Link to={`/blogs/${post._id}`} className="btn btn-primary">Read More</Link>
           </div>)
         }
         )}

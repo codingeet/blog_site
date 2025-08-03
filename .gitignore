@@ -1,6 +1,7 @@
 # Ignore all node_modules folders recursively
 **/node_modules/
-
+# Ignore uploads folder
+backend/uploads
 # Ignore environment files
 **/.env
 

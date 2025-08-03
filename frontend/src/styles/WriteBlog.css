@@ -55,10 +55,14 @@
  .title-wrap {
    padding: 8px;
    width: 100%;
-
+   
    input {
      width: 92%;
      height: 30px;
+   }
+
+   label {
+    margin-right: 8px;
    }
  }
  .menu-wrap{

@@ -5,9 +5,9 @@ const {
   createBlog,
   getBlogById,
 } = require("../controllers/blogController");
-const { upload } = require("../middlewares/multer");
+const { upload } = require("../middlewares/multer.js");
 
-router.route("/").get(getBlogs).post(upload.single("thumbnail"), createBlog);
+router.route("/").get(getBlogs).post(upload.single("image"), createBlog);
 router.route("/:id").get(getBlogById);
 
 module.exports = router;

@@ -108,44 +108,50 @@ export default function WriteBlog() {
       alert('Please select a valid image file.');
     }
   };
+ 
   const handleSubmit = () => {
-    const formData = new FormData();
-    console.log("formData", formData);
+  const content = editor.getHTML();
+  const formData = new FormData(); 
+  formData.append("title", title);
+  formData.append("content", content);
+  formData.append("author", "Mukesh");
+  formData.append("image", imageFile);
 
-    // formData.append("title", blogTitle);
-    // formData.append("content", blogContent);
-    // formData.append("author", "Mukesh");
-    // formData.append("thumbnail", selectedFile);
-    let content = editor.getHTML();
-    let blogData = {
-      title: title,
-      content: content,
-      author: "Mukesh Maurya"
-    };
-    if (title === "" || blogData.content === "<p></p>" || blogData.content === `<p>Start writing your blog...</p>`) {
-      alertConfig.msg = "Title or content empty !";
-      alertConfig.type = 'error';
-      toggleAlert();
-      return;
-    }
-    fetch("http://localhost:5000/api/blogs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(blogData),
-    }).then(res => {
+  if (
+    title.trim() === "" ||
+    content.trim() === "<p></p>" ||
+    content.trim() === "<p>Start writing your blog...</p>"
+  ) {
+    alertConfig.msg = "Title or content empty!";
+    alertConfig.type = "error";
+    toggleAlert();
+    return;
+  }
+
+  fetch("http://localhost:5000/api/blogs", {
+    method: "POST",
+    body: formData,
+  })
+    .then((res) => {
       if (res.ok) {
-        alertConfig.type = 'success';
-        alertConfig.msg = 'Blog submitted successfully.';
+        alertConfig.type = "success";
+        alertConfig.msg = "Blog submitted successfully.";
         toggleAlert();
+
+        // Clear all the input fields at this stage as blog is submitted successfully
+
       }
       return res.json();
-    }).then(data => console.log("Blog created:", data))
-      .catch(err => {
-        alertConfig.type = 'error';
-        alertConfig.msg = 'Ohh!!! Server error, not able to submit blog.';
-        toggleAlert();
-      });
-  };
+    })
+    .then((data) => console.log("Blog created:", data))
+    .catch((err) => {
+      alertConfig.type = "error";
+      alertConfig.msg = "Ohh!!! Server error, not able to submit blog.";
+      toggleAlert();
+      console.error("Error:", err);
+    });
+};
+
 
   const toggleAlert = () => {
     setAlert(!showAlert)

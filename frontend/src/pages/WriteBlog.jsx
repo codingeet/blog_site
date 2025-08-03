@@ -94,6 +94,9 @@ export default function WriteBlog() {
   });
 
   const handleTitle = (e) => {
+    e.preventDefault();
+    console.log('settitel',e.target.value);
+    
     setTitle(e.target.value);
   }
   const handleImageChange = (e) => {
@@ -108,49 +111,52 @@ export default function WriteBlog() {
       alert('Please select a valid image file.');
     }
   };
- 
-  const handleSubmit = () => {
-  const content = editor.getHTML();
-  const formData = new FormData(); 
-  formData.append("title", title);
-  formData.append("content", content);
-  formData.append("author", "Mukesh");
-  formData.append("image", imageFile);
 
-  if (
-    title.trim() === "" ||
-    content.trim() === "<p></p>" ||
-    content.trim() === "<p>Start writing your blog...</p>"
-  ) {
-    alertConfig.msg = "Title or content empty!";
-    alertConfig.type = "error";
-    toggleAlert();
-    return;
-  }
+  const handleSubmit = (e) => {
+     e.preventDefault();
+    const content = editor.getHTML();
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("author", "Mukesh");
+    formData.append("image", imageFile);
 
-  fetch("http://localhost:5000/api/blogs", {
-    method: "POST",
-    body: formData,
-  })
-    .then((res) => {
-      if (res.ok) {
-        alertConfig.type = "success";
-        alertConfig.msg = "Blog submitted successfully.";
-        toggleAlert();
-
-        // Clear all the input fields at this stage as blog is submitted successfully
-
-      }
-      return res.json();
-    })
-    .then((data) => console.log("Blog created:", data))
-    .catch((err) => {
+    if (
+      title.trim() === "" ||
+      content.trim() === "<p></p>" ||
+      content.trim() === "<p>Start writing your blog...</p>"
+    ) {
+      alertConfig.msg = "Title or content empty!";
       alertConfig.type = "error";
-      alertConfig.msg = "Ohh!!! Server error, not able to submit blog.";
       toggleAlert();
-      console.error("Error:", err);
-    });
-};
+      return;
+    }
+
+    fetch("http://localhost:5000/api/blogs", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => {
+        if (res.ok) {
+          alertConfig.type = "success";
+          alertConfig.msg = "Blog submitted successfully.";
+          toggleAlert();
+          // Clear all the input fields at this stage as blog is submitted successfully
+          setTitle("");
+          setImageFile(null);
+          setPreviewURL(null);
+         editor.commands.clearContent();
+        }
+        return res.json();
+      })
+      .then((data) => console.log("Blog created:", data))
+      .catch((err) => {
+        alertConfig.type = "error";
+        alertConfig.msg = "Ohh!!! Server error, not able to submit blog.";
+        toggleAlert();
+        console.error("Error:", err);
+      });
+  };
 
 
   const toggleAlert = () => {
@@ -168,7 +174,7 @@ export default function WriteBlog() {
         <div className='title-wrap'>
           <label htmlFor="title">Title:</label>
           <input onChange={handleTitle}
-            type="text" id="title" name="title" placeholder="Enter your Blog Title" />
+            type="text" id="title" name="title" value={title} placeholder="Enter your Blog Title" />
         </div>
         <div className="imageUploader">
           <label htmlFor="thumbnail" className="fileLabel">Blog thumbnail:</label>
@@ -178,7 +184,7 @@ export default function WriteBlog() {
             accept="image/*"
             className="fileInput"
           />
-          {previewURL && <img src={previewURL} alt="preview"  height="50" width="50" style={{ borderRadius: '8px' }} />}
+          {previewURL && <img src={previewURL} alt="preview" height="50" width="50" style={{ borderRadius: '8px' }} />}
           <span>{imageFile?.name}</span>
         </div>
         <MenuBar editor={editor} />

@@ -32,6 +32,7 @@ const Blogs = () => {
           });
 
           return (<div className="blog-card" key={post._id}>
+            
             <h2 className="blog-title">{post.title}</h2>
             <div className="blog-meta">
               <span className="blog-author">By {post.author}</span>

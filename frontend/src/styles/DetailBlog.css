@@ -8,3 +8,16 @@
  .blog-title {
      text-align: center;
  }
+ .meta-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #6b7280; /* gray-500 */
+  margin-top: 0.25rem;
+}
+
+.meta-info .author {
+  font-weight: 500;
+  color: #374151; /* gray-700 */
+}

@@ -17,6 +17,22 @@ const DetailBlog = (props) => {
     console.log(blog, '>>>>>>>>>>>>>>>');
     return (
         <div className="detail-wrapper">
+            <div className="meta-info">
+                <span className="author">By {post.author}</span>
+                <span className="date">
+                    {new Date(post.createdAt).toLocaleString("en-IN", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                    })}
+                </span>
+            </div>
+
+
+
             <h3 className="blog-title">{blog?.title}</h3>
             <div className="img-wrap">
                 <img src={blog?.thumbnail} />

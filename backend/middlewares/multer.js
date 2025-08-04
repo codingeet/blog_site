@@ -5,8 +5,8 @@ const storage = multer.diskStorage({
     cb(null, "uploads/"); // Make sure 'uploads' folder exists
   },
   filename: (req, file, cb) => {
-    const uniqueName = Date.now() + "-" + file.originalname;
-    cb(null, uniqueName);
+    const thumbnailPath = `http://localhost:5000/uploads/${Date.now() + "-" + file.originalname}`;
+    cb(null, thumbnailPath);
   },
 });
-exports.upload = multer({ storage: storage , limits: { fileSize: 10 * 1024 * 1024 }}); // 5MB max file size);
+exports.upload = multer({ storage: storage , limits: { fileSize: 10 * 1024 * 1024 }}); // 10MB max file size);

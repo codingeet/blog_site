@@ -1,23 +1,31 @@
  .detail-wrapper {
-     padding: 10px;
-     border: 2px solid grey;
-     margin: 10px;
-     border-radius: 8px;
+   padding: 10px;
+   border: 2px solid grey;
+   margin: 10px;
+   border-radius: 8px;
  }
 
  .blog-title {
-     text-align: center;
+   text-align: center;
  }
- .meta-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9rem;
-  color: #6b7280; /* gray-500 */
-  margin-top: 0.25rem;
-}
 
-.meta-info .author {
-  font-weight: 500;
-  color: #374151; /* gray-700 */
-}
+ .meta-info {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   font-size: 0.9rem;
+   color: #6b7280;
+   /* gray-500 */
+   margin-top: 0.25rem;
+ }
+
+ .meta-info .author {
+   font-weight: 500;
+   color: #374151;
+   /* gray-700 */
+ }
+
+ .img-wrap {
+   margin: 0 auto;
+   width: 600px;
+ }

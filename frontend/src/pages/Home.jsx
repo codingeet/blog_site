@@ -1,5 +1,6 @@
  import React from 'react'
  import "../styles/Home.css";
+ import { Link } from "react-router-dom";
  
  const Home = () => {
   return (
@@ -7,7 +8,7 @@
       <header className="hero">
         <h1>Welcome to CodeChronicles</h1>
         <p>Your personal space to write, read, and explore ideas.</p>
-        <button className="btn btn-primary">Get Started</button>
+        <Link to="/blogs"> <button className="btn btn-primary">Get Started</button></Link>
       </header>
 
       <section className="features">
@@ -28,7 +29,7 @@
       <section className="cta-section">
         <h2>Join CodeChronicles Today</h2>
         <p>Whether you're a reader or a writer, CodeChronicles welcomes you.</p>
-        <button className="btn btn-primary">Create Your First Blog</button>
+        <Link to="/write-blog"><button className="btn btn-primary">Create Your First Blog</button></Link>
       </section>
     </div>
   );

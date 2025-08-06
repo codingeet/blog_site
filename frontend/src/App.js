@@ -6,6 +6,8 @@ import Blogs from "./pages/Blogs";
 import About from "./pages/About";
 import WriteBlog from "./pages/WriteBlog";
 import DetailBlog from "./pages/DetailBlog";
+import Login from "./pages/Login";
+
 
 
 
@@ -18,7 +20,7 @@ function App() {
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/about" element={<About />} />
         <Route path="/write-blog" element={<WriteBlog />} />
-        {/* <Route path="/contact" element={<Contact />} /> */}
+        <Route path="/login" element={<Login/>} />
         {/* Optional: Dynamic route */}
         <Route path="/blogs/:id" element={<DetailBlog />} />
       </Routes>

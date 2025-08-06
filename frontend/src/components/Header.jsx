@@ -19,7 +19,7 @@ const Header = () => {
         <Link to="/blogs">Blogs</Link>
         <Link to="/about">About</Link>
         <Link to="/write-blog">Write Blog</Link>
-        <Link to="/contact">Contact</Link>
+        <Link to="/login">Login</Link>
       </nav>
 
       <button className="menu-toggle" onClick={toggleMenu}>

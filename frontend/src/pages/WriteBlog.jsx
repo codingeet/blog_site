@@ -13,6 +13,7 @@ import "../styles/WriteBlog.css";
 import Alert from '../components/Alert'
 
 
+
 const alertConfig = {
   type: 'error',
   msg: ''
@@ -191,6 +192,7 @@ export default function WriteBlog() {
         <EditorContent editor={editor} className="editor-content" />
         <button className="btn btn-primary right submit" type='button' onClick={handleSubmit}>Submit</button>
       </div>
+     
     </div>
   );
 };

@@ -72,12 +72,16 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.refreshToken = async (req, res) => {
+exports.refreshToken = (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.sendStatus(401);
-  jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
-    const newAccessToken = jwt.sign({ id: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+    const newAccessToken = jwt.sign(
+      { id: user.id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
     res.json({ accessToken: newAccessToken });
   });
 };

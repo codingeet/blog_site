@@ -21,14 +21,12 @@ exports.register = async (req, res) => {
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    //this will be handled in pre save hook in user model
 
     // Save new user
-    const newUser = new User({ name, email, password: hashedPassword });
+    const newUser = new User({ name, email, password });
     await newUser.save();
-
     res.status(201).json({ message: "User registered successfully" });
-
   } catch (err) {
     console.error("Registration error:", err); // Log actual error
     res.status(500).json({ error: err.message || "Registration failed" });
@@ -39,22 +37,29 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-       const hash = await bcrypt.hash(password, 10);
-       console.log("Hash:", hash);
-     console.log("Login email:", email, (await bcrypt.compare("password123", user.password)));
-console.log("Login raw password:", password);
-console.log("Stored hashed password:", user.password);
-    if (!user || !(await bcrypt.compare("password123", user.password))) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
+    let accessToken, refreshToken;
+    try {
+      accessToken = jwt.sign(
+        { id: user._id },
+        ACCESS_TOKEN_SECRET,
+        { expiresIn: "15m" }
+      );
 
-    const accessToken = jwt.sign({ id: user._id }, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
-    const refreshToken = jwt.sign({ id: user._id }, REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
-
+      refreshToken = jwt.sign(
+        { id: user._id },
+        REFRESH_TOKEN_SECRET,
+        { expiresIn: "7d" }
+      );
+    } catch (signErr) {
+      console.error("JWT SIGN ERROR:", signErr);
+      return res.status(500).json({ error: signErr.message });
+    }
     // Store refresh token in DB or cache
     user.refreshToken = refreshToken;
     await user.save();
-
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true, // only over HTTPS in prod
@@ -63,14 +68,13 @@ console.log("Stored hashed password:", user.password);
 
     res.json({ accessToken });
   } catch (err) {
-    res.status(500).json({ error: "Login failed" });
+    res.status(500).json({ error: "Login failed, user not found" });
   }
 };
 
 exports.refreshToken = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.sendStatus(401);
-
   jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
     const newAccessToken = jwt.sign({ id: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });

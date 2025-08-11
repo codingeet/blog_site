@@ -18,7 +18,7 @@ export default function Login() {
         setAlert(!showAlert)
     };
     const handleOnchange = (event) => {
-        setUserData(pre => ({ ...pre, [event.target.name]: event.target.value }));
+        setUserData(pre => ({ ...pre, [event.target.name]: event.target.value }));    
     }
 // ///login///
 
@@ -26,7 +26,7 @@ export default function Login() {
         event.preventDefault();
         console.log(userData);
         
-
+        
         if (!userData.email || !userData.password ) {
             alertConfig.type = "error";
             alertConfig.msg = "Atleast one input feild is empty";
@@ -41,12 +41,11 @@ export default function Login() {
             return;
         }
     };
-// //login//!!!!!!!!!!!!!!!!!!!
+
     const handleSignUp = (event) => {
         event.preventDefault();
-        console.log(userData);
         
-
+        console.log(userData);
         if (!userData.name || !userData.email || !userData.password || !userData.confirmpassword) {
             alertConfig.type = "error";
             alertConfig.msg = "Atleast one input feild is empty";
@@ -66,6 +65,13 @@ export default function Login() {
             toggleAlert();
             return;
         }
+          if (userData.password.length < 6) {
+            alertConfig.type = "error";
+            alertConfig.msg = "Atleast 6 character required in password";
+            toggleAlert();
+            return;
+        }
+
     };
     return (
         <div className="container">
@@ -104,7 +110,7 @@ export default function Login() {
                             <input type="password" id="password" name="password" onChange={handleOnchange} placeholder="Enter your Password" />
                         </div>
                        <div className='input-wrap'>
-                            <input id="password" name="password" type={openEye ? "text" : "password"} placeholder="Confirm your password" className="ml-[-5vh] text-xl cursor-pointer hover:text-[red] duration-300" />
+                            <input id="confirmpassword" name="confirmpassword" type={openEye ? "text" : "password"}   onChange={handleOnchange} placeholder="Confirm your password"/>
                             <span onClick={() => toggleOpenEye(!openEye)} className="eye-icon"> {openEye ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
                         </div>
                         <div className="button-wrapper">

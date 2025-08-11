@@ -85,10 +85,10 @@ export default function Login() {
                     <div className="form">
                         <h3>Login Form</h3>
                         <div className='input-wrap'>
-                            <input type="text" id="email" name="email" placeholder="Enter your Email" />
+                            <input type="text" id="email" name="email" onChange={handleOnchange} placeholder="Enter your Email" />
                         </div>
                         <div className='input-wrap'>
-                            <input id="password" name="password" type={openEye ? "text" : "password"} placeholder="Enter your Password" className="ml-[-5vh] text-xl cursor-pointer hover:text-[red] duration-300" />
+                            <input id="password" name="password" onChange={handleOnchange} type={openEye ? "text" : "password"} placeholder="Enter your Password" className="ml-[-5vh] text-xl cursor-pointer hover:text-[red] duration-300" />
                             <span onClick={() => toggleOpenEye(!openEye)} className="eye-icon"> {openEye ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
                         </div>
                         <div className="button-wrapper">

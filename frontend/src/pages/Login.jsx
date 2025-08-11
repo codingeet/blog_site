@@ -18,16 +18,16 @@ export default function Login() {
         setAlert(!showAlert)
     };
     const handleOnchange = (event) => {
-        setUserData(pre => ({ ...pre, [event.target.name]: event.target.value }));    
+        setUserData(pre => ({ ...pre, [event.target.name]: event.target.value }));
     }
-// ///login///
+    // ///login///
 
     const handleLogin = (event) => {
         event.preventDefault();
         console.log(userData);
-        
-        
-        if (!userData.email || !userData.password ) {
+
+
+        if (!userData.email || !userData.password) {
             alertConfig.type = "error";
             alertConfig.msg = "Atleast one input feild is empty";
             toggleAlert();
@@ -44,7 +44,7 @@ export default function Login() {
 
     const handleSignUp = (event) => {
         event.preventDefault();
-        
+
         console.log(userData);
         if (!userData.name || !userData.email || !userData.password || !userData.confirmpassword) {
             alertConfig.type = "error";
@@ -65,13 +65,35 @@ export default function Login() {
             toggleAlert();
             return;
         }
-          if (userData.password.length < 6) {
+        if (userData.password.length < 6) {
             alertConfig.type = "error";
             alertConfig.msg = "Atleast 6 character required in password";
             toggleAlert();
             return;
         }
-
+        ////api call////
+        fetch("http://localhost:5000/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: userData.name,
+                email: userData.email,
+                password: userData.password
+            })
+        }).then((res) => {
+            if (res.ok) {
+                alertConfig.type = "success";
+                alertConfig.msg = "Registration successfull, Go ahead and login";
+                toggleAlert();
+            }
+            return res.json();
+        }).catch((err) => {
+            alertConfig.type = "error";
+            alertConfig.msg = err.message;
+            toggleAlert();
+        });
     };
     return (
         <div className="container">
@@ -109,8 +131,8 @@ export default function Login() {
                         <div className='input-wrap'>
                             <input type="password" id="password" name="password" onChange={handleOnchange} placeholder="Enter your Password" />
                         </div>
-                       <div className='input-wrap'>
-                            <input id="confirmpassword" name="confirmpassword" type={openEye ? "text" : "password"}   onChange={handleOnchange} placeholder="Confirm your password"/>
+                        <div className='input-wrap'>
+                            <input id="confirmpassword" name="confirmpassword" type={openEye ? "text" : "password"} onChange={handleOnchange} placeholder="Confirm your password" />
                             <span onClick={() => toggleOpenEye(!openEye)} className="eye-icon"> {openEye ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
                         </div>
                         <div className="button-wrapper">

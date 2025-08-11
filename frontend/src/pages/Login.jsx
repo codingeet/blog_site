@@ -20,9 +20,32 @@ export default function Login() {
     const handleOnchange = (event) => {
         setUserData(pre => ({ ...pre, [event.target.name]: event.target.value }));
     }
+// ///login///
+
+    const handleLogin = (event) => {
+        event.preventDefault();
+        console.log(userData);
+        
+
+        if (!userData.email || !userData.password ) {
+            alertConfig.type = "error";
+            alertConfig.msg = "Atleast one input feild is empty";
+            toggleAlert();
+            return;
+        }
+        // email validation///
+        if (!isValidEmail(userData.email)) {
+            alertConfig.type = "error";
+            alertConfig.msg = "Invalid Email";
+            toggleAlert();
+            return;
+        }
+    };
+// //login//!!!!!!!!!!!!!!!!!!!
     const handleSignUp = (event) => {
         event.preventDefault();
         console.log(userData);
+        
 
         if (!userData.name || !userData.email || !userData.password || !userData.confirmpassword) {
             alertConfig.type = "error";
@@ -63,7 +86,7 @@ export default function Login() {
                             <span onClick={() => toggleOpenEye(!openEye)} className="eye-icon"> {openEye ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
                         </div>
                         <div className="button-wrapper">
-                            <button className="btn btn-primary  submit" type='button'>Login</button>
+                            <button className="btn btn-primary  submit" type='button' onClick={handleLogin}>Login</button>
                         </div>
 
                         <p>Not a member ? <span className="link-button" onClick={() => toggleLoginForm(false)}> SignUp</span></p>
@@ -80,8 +103,9 @@ export default function Login() {
                         <div className='input-wrap'>
                             <input type="password" id="password" name="password" onChange={handleOnchange} placeholder="Enter your Password" />
                         </div>
-                        <div className='input-wrap'>
-                            <input type="password" id="confirmpassword" name="confirmpassword" onChange={handleOnchange} placeholder="Confirm Password" />
+                       <div className='input-wrap'>
+                            <input id="password" name="password" type={openEye ? "text" : "password"} placeholder="Confirm your password" className="ml-[-5vh] text-xl cursor-pointer hover:text-[red] duration-300" />
+                            <span onClick={() => toggleOpenEye(!openEye)} className="eye-icon"> {openEye ? <IoEyeOutline /> : <IoEyeOffOutline />}</span>
                         </div>
                         <div className="button-wrapper">
                             <button className="btn btn-primary  submit" type='button' onClick={handleSignUp}>SignUp</button>

@@ -25,8 +25,29 @@ exports.register = async (req, res) => {
 
     // Save new user
     const newUser = new User({ name, email, password });
+     // 🔑 Generate tokens for login instatntly 
+    const accessToken = jwt.sign({ id: newUser._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+    const refreshToken = jwt.sign({ id: newUser._id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+
+    newUser.refreshToken = refreshToken;
     await newUser.save();
-    res.status(201).json({ message: "User registered successfully" });
+       // Set cookie for refresh token
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict"
+    });
+
+    // Return access token + user info
+    res.status(201).json({
+      message: "User registered & logged in",
+      accessToken,
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email
+      }
+    });
   } catch (err) {
     console.error("Registration error:", err); // Log actual error
     res.status(500).json({ error: err.message || "Registration failed" });
@@ -51,7 +72,7 @@ exports.login = async (req, res) => {
       refreshToken = jwt.sign(
         { id: user._id },
         REFRESH_TOKEN_SECRET,
-        { expiresIn: "7d" }
+        { expiresIn: "15d" }
       );
     } catch (signErr) {
       console.error("JWT SIGN ERROR:", signErr);
@@ -62,7 +83,7 @@ exports.login = async (req, res) => {
     await user.save();
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true, // only over HTTPS in prod
+      secure: process.env.NODE_ENV === "production",
       sameSite: "strict"
     });
 
@@ -73,7 +94,7 @@ exports.login = async (req, res) => {
 };
 
 exports.refreshToken = (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.cookies.refreshToken;  
   if (!refreshToken) return res.sendStatus(401);
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
@@ -84,4 +105,29 @@ exports.refreshToken = (req, res) => {
     );
     res.json({ accessToken: newAccessToken });
   });
+};
+
+
+exports.getLoggedInUser = async (req, res) => {
+  try {
+    const token = req.cookies.refreshToken; // HttpOnly cookie
+    if (!token) {
+      return res.status(401).json({ error: "No token provided" });
+    }
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ error: "Invalid or expired token" });
+      }
+
+      const user = await User.findById(decoded.id).select("-password");
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.json(user);
+    });
+  } catch (err) {
+    console.error("Error in getLoggedInUser:", err);
+    res.status(500).json({ error: "Server error" });
+  }
 };

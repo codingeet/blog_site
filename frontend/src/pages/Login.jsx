@@ -3,6 +3,8 @@ import "../styles/Login.css"
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import Alert from "../components/Alert";
 import { isValidEmail } from "../helper";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../store/authThunk";
 const alertConfig = {
     type: 'error',
     msg: ''
@@ -14,6 +16,8 @@ export default function Login() {
     const [openEye, toggleOpenEye] = useState(false);
     const [showAlert, setAlert] = useState(false);
     const [userData, setUserData] = useState({ name: "", email: "", password: "", confirmpassword: "" });
+    const dispatch = useDispatch();
+    const { user, loading, error } = useSelector((state) => state.auth);
     const toggleAlert = () => {
         setAlert(!showAlert)
     };
@@ -25,8 +29,6 @@ export default function Login() {
     const handleLogin = (event) => {
         event.preventDefault();
         console.log(userData);
-
-
         if (!userData.email || !userData.password) {
             alertConfig.type = "error";
             alertConfig.msg = "Atleast one input feild is empty";
@@ -40,11 +42,28 @@ export default function Login() {
             toggleAlert();
             return;
         }
+        fetch("http://localhost:5000/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: userData.email,
+                password: userData.password
+            }),
+            credentials: "include"   // to set the http only coockie in the browser which has requested
+        }).then((res) => {
+            console.log("Ressss;;;;", res);
+
+            if (res.ok) {
+            }
+            return res.json();
+        }).catch((err) => {
+        });
     };
 
     const handleSignUp = (event) => {
         event.preventDefault();
-
         console.log(userData);
         if (!userData.name || !userData.email || !userData.password || !userData.confirmpassword) {
             alertConfig.type = "error";
@@ -72,29 +91,14 @@ export default function Login() {
             return;
         }
         ////api call////
-        fetch("http://localhost:5000/api/auth/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                name: userData.name,
-                email: userData.email,
-                password: userData.password
-            })
-        }).then((res) => {
-            if (res.ok) {
-                alertConfig.type = "success";
-                alertConfig.msg = "Registration successfull, Go ahead and login";
-                toggleAlert();
-            }
-            return res.json();
-        }).catch((err) => {
-            alertConfig.type = "error";
-            alertConfig.msg = err.message;
-            toggleAlert();
-        });
+        dispatch(registerUser({
+            name: userData.name,
+            email: userData.email,
+            password: userData.password
+        }));
     };
+
+
     return (
         <div className="container">
             {showAlert && <Alert

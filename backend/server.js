@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const blogRoutes = require("./routes/blogRoutes.js");
 const authRoutes = require('./routes/authRoutes.js');
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 connectDB();
 const app = express();
@@ -16,7 +17,7 @@ app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
 }));
-
+app.use(cookieParser());
 // 2️⃣ Parse JSON & URL-encoded (for regular requests)
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));

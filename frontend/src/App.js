@@ -21,25 +21,19 @@ function App() {
   useEffect(() => {
     const reloadUser = async () => {
       try {
-        // 1. Refresh access token (backend reads refresh token from HttpOnly cookie)
-        const res = await dispatch(refreshAccessToken());
-
-        if (res.meta.requestStatus === "fulfilled") {
-          const accessToken = res.payload; // our thunk returns new token
-          // 2. Get user info using new access token
-          const userRes = await axios.get("/api/auth/getLoggedInUser", {
-            headers: { Authorization: `Bearer ${accessToken}` },
-            withCredentials: true,
-          });
-          console.log("userRes:::", userRes);
-          // 3. Save user + token into Redux
-          dispatch(
-            loginSuccess({
-              user: userRes.data,
-              accessToken,
-            })
-          );
-        }
+     const accessToken = await dispatch(refreshAccessToken()).unwrap();
+      // 2. Get user info using new access token
+      const userRes = await axios.get("/api/auth/getLoggedInUser", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        withCredentials: true,
+      });
+       // 3. Save user + token into Redux
+      dispatch(
+        loginSuccess({
+          user: userRes.data,
+          accessToken,
+        })
+      );
       } catch (err) {
         console.error("Reload failed:", err);
         dispatch(logout());

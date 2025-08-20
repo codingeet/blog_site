@@ -4,7 +4,7 @@ import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import Alert from "../components/Alert";
 import { isValidEmail } from "../helper";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../store/authThunk";
+import { loginUser, registerUser } from "../store/authThunk.js";
 const alertConfig = {
     type: 'error',
     msg: ''
@@ -42,24 +42,7 @@ export default function Login() {
             toggleAlert();
             return;
         }
-        fetch("http://localhost:5000/api/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: userData.email,
-                password: userData.password
-            }),
-            credentials: "include"   // to set the http only coockie in the browser which has requested
-        }).then((res) => {
-            console.log("Ressss;;;;", res);
-
-            if (res.ok) {
-            }
-            return res.json();
-        }).catch((err) => {
-        });
+        dispatch(loginUser({ email: userData.email, password: userData.password }));
     };
 
     const handleSignUp = (event) => {

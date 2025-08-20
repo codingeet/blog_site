@@ -1,12 +1,24 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Header.css";
-// import "../styles/theme.css";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/authSlice.js";
+import axios from "axios";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post("/api/auth/logout", {}, { withCredentials: true });
+      dispatch(logout());
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
   return (
     <header className="site-header">
@@ -19,7 +31,7 @@ const Header = () => {
         <Link to="/blogs">Blogs</Link>
         <Link to="/about">About</Link>
         <Link to="/write-blog">Write Blog</Link>
-        <Link to="/login">Login</Link>
+        {user ? <Link onClick={handleLogout}>Logout</Link> : <Link to="/login">Login</Link>}
       </nav>
 
       <button className="menu-toggle" onClick={toggleMenu}>

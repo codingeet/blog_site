@@ -14,9 +14,10 @@ const blogSchema = new mongoose.Schema(
       required: true,
     },
     author: {
-      type: String,
-      default: "Anonymous",
-    },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",   // reference to the User model
+
+    }
   },
   { timestamps: true }
 );

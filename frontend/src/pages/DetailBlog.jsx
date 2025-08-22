@@ -14,11 +14,10 @@ const DetailBlog = (props) => {
             .then((data) => setBlog(data))
             .catch((err) => console.error("Error fetching blog:", err));
     }, [id]);
-    console.log(blog, '>>>>>>>>>>>>>>>');
     return (
         <div className="detail-wrapper">
             <div className="meta-info">
-                <span className="author">By {blog?.author}</span>
+                <span className="author">By {blog?.author?.name}</span>
                 <span className="date">
                     {new Date(blog?.createdAt).toLocaleString("en-IN", {
                         day: "2-digit",

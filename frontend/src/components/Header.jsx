@@ -31,7 +31,20 @@ const Header = () => {
         <Link to="/blogs">Blogs</Link>
         <Link to="/about">About</Link>
         <Link to="/write-blog">Write Blog</Link>
-        {user ? <Link onClick={handleLogout}>Logout</Link> : <Link to="/login">Login</Link>}
+        {/* {user ? <Link onClick={handleLogout}>Logout</Link> : <Link to="/login">Login</Link>} */}
+             {!user ? 
+            <Link to="/login">Login</Link>
+        : (
+          <div className="user-area">
+            {/* Avatar */}
+            <div className="avatar" title={user.name}>
+              {user.name ? user.name[0].toUpperCase() : user.email[0].toUpperCase()}
+            </div>
+            <button className="logout-btn" onClick={handleLogout} title="Logout by clicking this button">
+              Logout
+            </button>
+          </div>
+        )}
       </nav>
 
       <button className="menu-toggle" onClick={toggleMenu}>

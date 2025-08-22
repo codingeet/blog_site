@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Login.css"
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import Alert from "../components/Alert";
 import { isValidEmail } from "../helper";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, registerUser } from "../store/authThunk.js";
+import { useNavigate } from "react-router-dom";
 const alertConfig = {
     type: 'error',
     msg: ''
@@ -17,7 +18,14 @@ export default function Login() {
     const [showAlert, setAlert] = useState(false);
     const [userData, setUserData] = useState({ name: "", email: "", password: "", confirmpassword: "" });
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { user, loading, error } = useSelector((state) => state.auth);
+    // 🚨 If already logged in → redirect
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, [user, navigate]);
     const toggleAlert = () => {
         setAlert(!showAlert)
     };

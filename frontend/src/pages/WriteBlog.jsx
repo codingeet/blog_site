@@ -1,5 +1,5 @@
 // BlogEditor.jsx
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -11,6 +11,9 @@ import TextAlign from '@tiptap/extension-text-align'
 import Color from '@tiptap/extension-color'
 import "../styles/WriteBlog.css";
 import Alert from '../components/Alert'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 
 
@@ -79,6 +82,15 @@ export default function WriteBlog() {
   const [showAlert, setAlert] = useState(false);
   const [imageFile, setImageFile] = useState(null);       // stores the file object
   const [previewURL, setPreviewURL] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, loading, error } = useSelector((state) => state.auth);
+  // 🚨 If already logged in → redirect
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   const editor = useEditor({
     extensions: [
@@ -96,8 +108,6 @@ export default function WriteBlog() {
 
   const handleTitle = (e) => {
     e.preventDefault();
-    console.log('settitel',e.target.value);
-    
     setTitle(e.target.value);
   }
   const handleImageChange = (e) => {
@@ -113,8 +123,8 @@ export default function WriteBlog() {
     }
   };
 
-  const handleSubmit = (e) => {
-     e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const content = editor.getHTML();
     const formData = new FormData();
     formData.append("title", title);
@@ -133,30 +143,28 @@ export default function WriteBlog() {
       return;
     }
 
-    fetch("http://localhost:5000/api/blogs", {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => {
-        if (res.ok) {
-          alertConfig.type = "success";
-          alertConfig.msg = "Blog submitted successfully.";
-          toggleAlert();
-          // Clear all the input fields at this stage as blog is submitted successfully
-          setTitle("");
-          setImageFile(null);
-          setPreviewURL(null);
-         editor.commands.clearContent();
+    try {
+      const res = await axios.post("/api/blogs", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
         }
-        return res.json();
-      })
-      .then((data) => console.log("Blog created:", data))
-      .catch((err) => {
-        alertConfig.type = "error";
-        alertConfig.msg = "Ohh!!! Server error, not able to submit blog.";
-        toggleAlert();
-        console.error("Error:", err);
       });
+      if (res.status == 201) {
+        alertConfig.type = "success";
+        alertConfig.msg = "Blog submitted successfully.";
+        toggleAlert();
+        // Clear all the input fields at this stage as blog is submitted successfully
+        setTitle("");
+        setImageFile(null);
+        setPreviewURL(null);
+        editor.commands.clearContent();
+      }
+    } catch (err) {
+      alertConfig.type = "error";
+      alertConfig.msg = "Ohh!!! Server error, not able to submit blog.";
+      toggleAlert();
+      console.error("Error:", err);
+    }
   };
 
 
@@ -192,7 +200,7 @@ export default function WriteBlog() {
         <EditorContent editor={editor} className="editor-content" />
         <button className="btn btn-primary right submit" type='button' onClick={handleSubmit}>Submit</button>
       </div>
-     
+
     </div>
   );
 };

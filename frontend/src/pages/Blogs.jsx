@@ -35,7 +35,7 @@ const Blogs = () => {
             
             <h2 className="blog-title">{post.title}</h2>
             <div className="blog-meta">
-              <span className="blog-author">By {post.author}</span>
+              <span className="blog-author">By {post.author?.name}</span>
               <span className="blog-date">{readableTime}</span>
             </div>
             <Link to={`/blogs/${post._id}`} className="btn btn-primary">Read More</Link>
